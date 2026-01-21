@@ -1,0 +1,22 @@
+{
+  "name": "typing-speed-test-game",
+  "version": "1.0.0",
+  "description": "A typing speed test game with WPM, CPM, and accuracy metrics",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=index.html",
+    "start": "live-server --port=3000 --open=index.html"
+  },
+  "keywords": [
+    "typing",
+    "speed-test",
+    "game",
+    "wpm",
+    "cpm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
