@@ -8,6 +8,9 @@ const tryAgainButton = document.getElementById('try-again-button');
 
 // Initialize the application
 async function init() {
+    // Initialize timer display
+    timer.updateDisplay();
+    
     // Load paragraphs from JSON
     await textGenerator.initialize();
     
@@ -58,6 +61,7 @@ function resetGame() {
     typingInput.disabled = false;
     startButton.style.display = 'inline-block';
     tryAgainButton.style.display = 'none';
+    timer.reset();
 }
 
 // Initialize when DOM is loaded
