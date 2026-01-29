@@ -1,77 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Typing Speed Test Game</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/components.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/components.css" />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>Typing Speed Test</h1>
-            <p class="subtitle">Test your typing speed and accuracy</p>
-        </header>
+      <header>
+        <h1>Typing Speed Test</h1>
+        <p class="subtitle">Test your typing speed and accuracy</p>
+      </header>
 
-        <main>
-            <!-- Timer Display -->
-            <div class="timer-display">
-                <span class="timer-label">Time:</span>
-                <span id="timer" class="timer-value">60:00</span>
-            </div>
+      <main>
+        <!-- Timer Display -->
+        <div class="timer-display">
+          <span class="timer-label">Time:</span>
+          <span id="timer" class="timer-value">01:00</span>
+        </div>
 
-            <!-- Text Display Area -->
-            <div class="text-display-container">
-                <div id="text-display" class="text-display">
-                    <!-- Paragraph text will be displayed here -->
-                </div>
-            </div>
+        <!-- Text Display Area -->
+        <div class="text-display-container">
+          <div id="text-display" class="text-display">
+            <!-- Paragraph text will be displayed here -->
+          </div>
+        </div>
 
-            <!-- Input Area -->
-            <div class="input-container">
-                <textarea 
-                    id="typing-input" 
-                    class="typing-input" 
-                    placeholder="Start typing here..."
-                    rows="4"
-                    autocomplete="off"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    spellcheck="false"
-                ></textarea>
-            </div>
+        <!-- Input Area -->
+        <div class="input-container">
+          <textarea
+            id="typing-input"
+            class="typing-input"
+            placeholder="Start typing here..."
+            rows="4"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          ></textarea>
+        </div>
 
-            <!-- Metrics Display Panel -->
-            <div class="metrics-panel">
-                <div class="metric-item">
-                    <span class="metric-label">Time</span>
-                    <span id="time-metric" class="metric-value">0s</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-label">Mistakes</span>
-                    <span id="mistakes-metric" class="metric-value">0</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-label">WPM</span>
-                    <span id="wpm-metric" class="metric-value">0</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-label">CPM</span>
-                    <span id="cpm-metric" class="metric-value">0</span>
-                </div>
-                <div class="metric-item">
-                    <span class="metric-label">Accuracy</span>
-                    <span id="accuracy-metric" class="metric-value">0%</span>
-                </div>
-            </div>
+        <!-- Metrics Display Panel -->
+        <div class="metrics-panel">
+          <div class="metric-item">
+            <span class="metric-label">Time</span>
+            <span id="time-metric" class="metric-value">0s</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Mistakes</span>
+            <span id="mistakes-metric" class="metric-value">0</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">WPM</span>
+            <span id="wpm-metric" class="metric-value">0</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">CPM</span>
+            <span id="cpm-metric" class="metric-value">0</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Accuracy</span>
+            <span id="accuracy-metric" class="metric-value">0%</span>
+          </div>
+        </div>
 
-            <!-- Control Buttons -->
-            <div class="controls">
-                <button id="start-button" class="btn btn-primary">Start</button>
-                <button id="try-again-button" class="btn btn-secondary" style="display: none;">Try Again</button>
-            </div>
-        </main>
+        <!-- Control Buttons -->
+        <div class="controls">
+          <button id="start-button" class="btn btn-primary">Start</button>
+          <button
+            id="try-again-button"
+            class="btn btn-secondary"
+            style="display: none"
+          >
+            Try Again
+          </button>
+        </div>
+      </main>
     </div>
 
     <!-- Scripts -->
@@ -80,5 +86,5 @@
     <script src="scripts/metrics.js"></script>
     <script src="scripts/typingTest.js"></script>
     <script src="scripts/main.js"></script>
-</body>
+  </body>
 </html>
