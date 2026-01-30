@@ -1,6 +1,25 @@
 // Core typing test functionality
 // Coordinates: paragraph rendering, input checking, timer + metrics.
 
+/**
+ * Compute correct character count and mistake count (typed vs target).
+ * Used by _onInput and by runTypingTestTests().
+ * @param {string} typed - User input
+ * @param {string} target - Expected text
+ * @returns {{ correct: number, mistakes: number }}
+ */
+function computeCorrectness(typed, target) {
+  const t = String(typed);
+  const ref = String(target || "");
+  let correct = 0;
+  let mistakes = 0;
+  for (let i = 0; i < t.length; i++) {
+    if (t[i] === (ref[i] ?? "")) correct++;
+    else mistakes++;
+  }
+  return { correct, mistakes };
+}
+
 class TypingTest {
   constructor() {
     this.textDisplay = null;
@@ -165,16 +184,7 @@ class TypingTest {
 
     // Compute correctness
     const target = this.paragraph || "";
-    let correct = 0;
-    let mistakes = 0;
-
-    for (let i = 0; i < typed.length; i++) {
-      if (typed[i] === (target[i] ?? "")) {
-        correct++;
-      } else {
-        mistakes++;
-      }
-    }
+    const { correct, mistakes } = computeCorrectness(typed, target);
 
     if (typeof metricsCalculator !== "undefined" && metricsCalculator) {
       metricsCalculator.update(typed.length, correct, mistakes);
@@ -236,3 +246,107 @@ class TypingTest {
 
 // Global instance (referenced by main.js)
 const typingTest = new TypingTest();
+
+/**
+ * Run tests on typingTest logic and (in browser) DOM wiring.
+ * Call from console: runTypingTestTests()
+ * @returns {{ passed: number, failed: number, results: Array }}
+ */
+function runTypingTestTests() {
+  const results = [];
+  let passed = 0;
+  let failed = 0;
+
+  function assert(name, condition, expected, actual) {
+    if (condition) {
+      results.push({ test: name, status: "PASS", expected, actual });
+      passed++;
+    } else {
+      results.push({ test: name, status: "FAIL", expected, actual });
+      failed++;
+    }
+  }
+
+  // --- computeCorrectness(typed, target) ---
+  let r = computeCorrectness("", "abc");
+  assert("Empty typed: 0 correct", r.correct === 0, 0, r.correct);
+  assert("Empty typed: 0 mistakes", r.mistakes === 0, 0, r.mistakes);
+
+  r = computeCorrectness("abc", "abc");
+  assert("Exact match: 3 correct", r.correct === 3, 3, r.correct);
+  assert("Exact match: 0 mistakes", r.mistakes === 0, 0, r.mistakes);
+
+  r = computeCorrectness("axc", "abc");
+  assert("One wrong char: 2 correct", r.correct === 2, 2, r.correct);
+  assert("One wrong char: 1 mistake", r.mistakes === 1, 1, r.mistakes);
+
+  r = computeCorrectness("abcd", "abc");
+  assert("Extra char: 3 correct", r.correct === 3, 3, r.correct);
+  assert("Extra char: 1 mistake", r.mistakes === 1, 1, r.mistakes);
+
+  r = computeCorrectness("ab", "abc");
+  assert("Short typed: 2 correct", r.correct === 2, 2, r.correct);
+  assert("Short typed: 0 mistakes", r.mistakes === 0, 0, r.mistakes);
+
+  r = computeCorrectness("hello world", "hello world");
+  assert("Words exact: 11 correct", r.correct === 11, 11, r.correct);
+  assert("Words exact: 0 mistakes", r.mistakes === 0, 0, r.mistakes);
+
+  // --- DOM / global instance (only when in browser with full page) ---
+  if (
+    typeof document !== "undefined" &&
+    document.getElementById("text-display") &&
+    document.getElementById("typing-input")
+  ) {
+    assert(
+      "typingTest exists",
+      typeof typingTest !== "undefined" && typingTest !== null,
+      true,
+      !!typingTest,
+    );
+    assert(
+      "text-display present",
+      !!document.getElementById("text-display"),
+      true,
+      !!document.getElementById("text-display"),
+    );
+    assert(
+      "typing-input present",
+      !!document.getElementById("typing-input"),
+      true,
+      !!document.getElementById("typing-input"),
+    );
+    assert(
+      "start-button present",
+      !!document.getElementById("start-button"),
+      true,
+      !!document.getElementById("start-button"),
+    );
+    assert(
+      "timer element present",
+      !!document.getElementById("timer"),
+      true,
+      !!document.getElementById("timer"),
+    );
+  }
+
+  console.log(
+    "%c--- typingTest.js Test Results ---",
+    "font-weight: bold; font-size: 14px",
+  );
+  results.forEach((r) => {
+    const style = r.status === "PASS" ? "color: green" : "color: red";
+    const extra =
+      r.expected !== undefined
+        ? ` (expected: ${r.expected}, got: ${r.actual})`
+        : "";
+    console.log(`%c${r.status} ${r.test}${extra}`, style);
+  });
+  console.log(
+    `%cTotal: ${passed} passed, ${failed} failed`,
+    "font-weight: bold",
+    passed + failed,
+    "tests",
+  );
+  return { passed, failed, results };
+}
