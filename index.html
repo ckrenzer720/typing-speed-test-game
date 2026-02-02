@@ -16,7 +16,7 @@
 
       <main>
         <!-- Timer Display -->
-        <div class="timer-display">
+        <div class="timer-display" aria-live="polite" aria-atomic="true">
           <span class="timer-label">Time:</span>
           <span id="timer" class="timer-value">01:00</span>
         </div>
@@ -34,6 +34,7 @@
             id="typing-input"
             class="typing-input"
             placeholder="Start typing here..."
+            aria-label="Typing input: type the paragraph above"
             rows="4"
             autocomplete="off"
             autocorrect="off"
@@ -43,7 +44,7 @@
         </div>
 
         <!-- Metrics Display Panel -->
-        <div class="metrics-panel">
+        <div class="metrics-panel" aria-live="polite" aria-atomic="true">
           <div class="metric-item">
             <span class="metric-label">Time</span>
             <span id="time-metric" class="metric-value">0s</span>

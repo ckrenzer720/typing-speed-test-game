@@ -8,21 +8,27 @@ const tryAgainButton = document.getElementById("try-again-button");
 
 // Initialize the application
 async function init() {
-  // Initialize timer display
-  timer.updateDisplay();
+  if (typeof timer !== "undefined" && timer) {
+    timer.updateDisplay();
+  }
 
-  // Load paragraphs from JSON
-  await textGenerator.initialize();
+  try {
+    await textGenerator.initialize();
+  } catch (err) {
+    console.error("Failed to load paragraphs:", err);
+    if (textDisplay) {
+      textDisplay.textContent =
+        "Error: Could not load paragraphs. Please refresh the page.";
+    }
+    setupEventListeners();
+    return;
+  }
 
-  // Initialize typing test controller
   if (typeof typingTest !== "undefined" && typingTest) {
     typingTest.init({ textDisplay, typingInput, startButton, tryAgainButton });
   }
 
-  // Load and display initial paragraph
   loadNewParagraph();
-
-  // Set up event listeners
   setupEventListeners();
 }
 
@@ -33,13 +39,12 @@ function loadNewParagraph() {
   const paragraph = textGenerator.getRandomParagraph();
 
   if (paragraph) {
-    // Display the paragraph in the text display area (with highlighting)
     if (typeof typingTest !== "undefined" && typingTest) {
       typingTest.setParagraph(paragraph);
-    } else {
+    } else if (textDisplay) {
       textDisplay.textContent = paragraph;
     }
-  } else {
+  } else if (textDisplay) {
     textDisplay.textContent =
       "Error: Could not load paragraph. Please refresh the page.";
   }
@@ -49,21 +54,22 @@ function loadNewParagraph() {
  * Set up all event listeners
  */
 function setupEventListeners() {
-  // Start button click
-  startButton.addEventListener("click", () => {
-    if (typeof typingTest !== "undefined" && typingTest) {
-      typingTest.start();
-    } else {
-      typingInput.focus();
-    }
-  });
+  if (startButton) {
+    startButton.addEventListener("click", () => {
+      if (typeof typingTest !== "undefined" && typingTest) {
+        typingTest.start();
+      } else if (typingInput) {
+        typingInput.focus();
+      }
+    });
+  }
 
-  // Try again button click
-  tryAgainButton.addEventListener("click", () => {
-    // Reset and load new paragraph
-    resetGame();
-    loadNewParagraph();
-  });
+  if (tryAgainButton) {
+    tryAgainButton.addEventListener("click", () => {
+      resetGame();
+      loadNewParagraph();
+    });
+  }
 }
 
 /**
@@ -73,11 +79,13 @@ function resetGame() {
   if (typeof typingTest !== "undefined" && typingTest) {
     typingTest.reset();
   } else {
-    typingInput.value = "";
-    typingInput.disabled = false;
-    startButton.style.display = "inline-block";
-    tryAgainButton.style.display = "none";
-    timer.reset();
+    if (typingInput) {
+      typingInput.value = "";
+      typingInput.disabled = false;
+    }
+    if (startButton) startButton.style.display = "inline-block";
+    if (tryAgainButton) tryAgainButton.style.display = "none";
+    if (typeof timer !== "undefined" && timer) timer.reset();
   }
 }
 

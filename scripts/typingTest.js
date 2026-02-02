@@ -29,6 +29,7 @@ class TypingTest {
 
     this.paragraph = "";
     this.isActive = false; // game started (after Start click)
+    this._renderScheduled = false;
 
     this._boundOnInput = this._onInput.bind(this);
   }
@@ -193,12 +194,25 @@ class TypingTest {
       }
     }
 
-    this.render();
+    this.scheduleRender();
 
-    // End early if completed perfectly
-    if (typed.length >= target.length && mistakes === 0 && typed === target) {
+    // End early if completed perfectly (length + mistakes avoids full string compare)
+    if (typed.length === target.length && mistakes === 0) {
       this.end("completed");
     }
+  }
+
+  /**
+   * Schedule a single render on the next animation frame (throttles rapid input).
+   */
+  scheduleRender() {
+    if (this._renderScheduled) return;
+    this._renderScheduled = true;
+    const self = this;
+    requestAnimationFrame(() => {
+      self._renderScheduled = false;
+      self.render();
+    });
   }
 
   /**
@@ -210,13 +224,11 @@ class TypingTest {
     const target = this.paragraph || "";
     const typed = this.typingInput ? this.typingInput.value : "";
 
-    // Fast path: if no target, just show message
     if (!target) {
       this.textDisplay.textContent = "Click Start to begin.";
       return;
     }
 
-    // Build spans safely (no innerHTML)
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < target.length; i++) {
