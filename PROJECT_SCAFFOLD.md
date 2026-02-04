@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-A web-based typing speed test game that measures typing performance with real-time metrics including WPM, CPM, accuracy, and mistake tracking. Maximum test duration is 60 seconds.
+A web-based typing speed test game that measures typing performance with real-time metrics including WPM, CPM, accuracy, and mistake tracking. Maximum test duration is 30 seconds.
 
 ## Technology Stack Recommendations
 
@@ -23,7 +23,7 @@ typing-speed-test-game/
 ├── scripts/
 │   ├── main.js               # Main application logic
 │   ├── typingTest.js         # Core typing test functionality
-│   ├── timer.js              # Timer management (60s countdown)
+│   ├── timer.js              # Timer management (30s countdown)
 │   ├── metrics.js            # WPM, CPM, Accuracy calculations
 │   └── textGenerator.js      # Paragraph/text generation/loading
 │
@@ -54,7 +54,7 @@ typing-speed-test-game/
 
 ### 3. **Timer System**
 
-- 60-second maximum countdown
+- 30-second maximum countdown
 - Starts when first character is typed
 - Stops when time expires or all text is completed
 - Real-time display
@@ -79,7 +79,7 @@ typing-speed-test-game/
 
 ### Timer Logic
 
-- Initialize at 60 seconds
+- Initialize at 30 seconds
 - Start on first keystroke
 - Countdown or count up (depending on UX preference)
 - Stop when time expires or test completes
@@ -120,7 +120,7 @@ typing-speed-test-game/
 
    - Paragraph displayed (random from `data/paragraphs.json`)
    - Input field empty and disabled until Start
-   - Timer at **01:00** (60 seconds in MM:SS)
+   - Timer at **00:30** (30 seconds in MM:SS)
    - Metrics at 0 (Time 0s, Mistakes 0, WPM 0, CPM 0, Accuracy 0%)
    - "Start" button visible; "Try Again" hidden
 
@@ -141,7 +141,7 @@ typing-speed-test-game/
 4. **Reset State** (after clicking Try Again):
    - New paragraph loaded
    - All metrics reset
-   - Timer reset to 01:00 (60 seconds)
+   - Timer reset to 00:30 (30 seconds)
    - Input cleared and disabled
    - Return to Initial State (Start visible, Try Again hidden)
 
@@ -158,7 +158,7 @@ typing-speed-test-game/
 ## Data Requirements
 
 - Collection of diverse paragraphs (various lengths and difficulty)
-- Each paragraph should be substantial enough for 60-second tests
+- Each paragraph should be substantial enough for 30-second tests
 - Mix of common words and some challenging vocabulary
 
 ## Future Enhancements (Optional)

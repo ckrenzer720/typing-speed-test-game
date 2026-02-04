@@ -51,17 +51,22 @@ function loadNewParagraph() {
 }
 
 /**
+ * Start a new run (same as clicking Start). Used by button and Ctrl+Enter.
+ */
+function startRun() {
+  if (typeof typingTest !== "undefined" && typingTest) {
+    typingTest.start();
+  } else if (typingInput) {
+    typingInput.focus();
+  }
+}
+
+/**
  * Set up all event listeners
  */
 function setupEventListeners() {
   if (startButton) {
-    startButton.addEventListener("click", () => {
-      if (typeof typingTest !== "undefined" && typingTest) {
-        typingTest.start();
-      } else if (typingInput) {
-        typingInput.focus();
-      }
-    });
+    startButton.addEventListener("click", startRun);
   }
 
   if (tryAgainButton) {
@@ -70,6 +75,16 @@ function setupEventListeners() {
       loadNewParagraph();
     });
   }
+
+  // Ctrl+Enter: start a new run when Start button is visible
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || !e.ctrlKey) return;
+    const startVisible =
+      startButton && window.getComputedStyle(startButton).display !== "none";
+    if (!startVisible) return;
+    e.preventDefault();
+    startRun();
+  });
 }
 
 /**

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,7 +18,7 @@
         <!-- Timer Display -->
         <div class="timer-display" aria-live="polite" aria-atomic="true">
           <span class="timer-label">Time:</span>
-          <span id="timer" class="timer-value">01:00</span>
+          <span id="timer" class="timer-value">00:30</span>
         </div>
 
         <!-- Text Display Area -->
@@ -68,15 +68,18 @@
         </div>
 
         <!-- Control Buttons -->
-        <div class="controls">
-          <button id="start-button" class="btn btn-primary">Start</button>
-          <button
-            id="try-again-button"
-            class="btn btn-secondary"
-            style="display: none"
-          >
-            Try Again
-          </button>
+        <div class="controls-wrapper">
+          <div class="controls">
+            <button id="start-button" class="btn btn-primary">Start</button>
+            <button
+              id="try-again-button"
+              class="btn btn-secondary"
+              style="display: none"
+            >
+              Try Again
+            </button>
+          </div>
+          <p class="shortcut-hint">Ctrl+Enter to start</p>
         </div>
       </main>
     </div>
