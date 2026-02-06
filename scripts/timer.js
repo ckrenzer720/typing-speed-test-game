@@ -9,6 +9,8 @@ class Timer {
     this.intervalId = null;
     this.startTime = null;
     this.elapsedTime = 0;
+    this._timerEl = null;
+    this._timeMetricEl = null;
     this.callbacks = {
       onTick: null,
       onComplete: null,
@@ -30,19 +32,20 @@ class Timer {
   }
 
   /**
-   * Update the timer display
+   * Update the timer display (caches DOM refs after first use)
    */
   updateDisplay() {
-    const timerElement = document.getElementById("timer");
-    const timeMetricElement = document.getElementById("time-metric");
+    if (!this._timerEl) this._timerEl = document.getElementById("timer");
+    if (!this._timeMetricEl)
+      this._timeMetricEl = document.getElementById("time-metric");
 
-    if (timerElement) {
-      timerElement.textContent = this.formatTime(this.timeRemaining);
+    if (this._timerEl) {
+      this._timerEl.textContent = this.formatTime(this.timeRemaining);
     }
 
-    if (timeMetricElement) {
+    if (this._timeMetricEl) {
       const elapsed = this.maxTime - this.timeRemaining;
-      timeMetricElement.textContent = `${elapsed}s`;
+      this._timeMetricEl.textContent = `${elapsed}s`;
     }
   }
 

@@ -188,9 +188,11 @@ class TypingTest {
     const { correct, mistakes } = computeCorrectness(typed, target);
 
     if (typeof metricsCalculator !== "undefined" && metricsCalculator) {
-      metricsCalculator.update(typed.length, correct, mistakes);
+      metricsCalculator.setCounts(typed.length, correct, mistakes);
       if (typeof timer !== "undefined" && timer) {
         metricsCalculator.updateWithElapsedTime(timer.getElapsedTime());
+      } else {
+        metricsCalculator.calculateAndUpdate();
       }
     }
 
@@ -208,10 +210,9 @@ class TypingTest {
   scheduleRender() {
     if (this._renderScheduled) return;
     this._renderScheduled = true;
-    const self = this;
     requestAnimationFrame(() => {
-      self._renderScheduled = false;
-      self.render();
+      this._renderScheduled = false;
+      this.render();
     });
   }
 
@@ -314,37 +315,37 @@ function runTypingTestTests() {
       "typingTest exists",
       typeof typingTest !== "undefined" && typingTest !== null,
       true,
-      !!typingTest,
+      !!typingTest
     );
     assert(
       "text-display present",
       !!document.getElementById("text-display"),
       true,
-      !!document.getElementById("text-display"),
+      !!document.getElementById("text-display")
     );
     assert(
       "typing-input present",
       !!document.getElementById("typing-input"),
       true,
-      !!document.getElementById("typing-input"),
+      !!document.getElementById("typing-input")
     );
     assert(
       "start-button present",
       !!document.getElementById("start-button"),
       true,
-      !!document.getElementById("start-button"),
+      !!document.getElementById("start-button")
     );
     assert(
       "timer element present",
       !!document.getElementById("timer"),
       true,
-      !!document.getElementById("timer"),
+      !!document.getElementById("timer")
     );
   }
 
   console.log(
     "%c--- typingTest.js Test Results ---",
-    "font-weight: bold; font-size: 14px",
+    "font-weight: bold; font-size: 14px"
   );
   results.forEach((r) => {
     const style = r.status === "PASS" ? "color: green" : "color: red";
@@ -358,7 +359,7 @@ function runTypingTestTests() {
     `%cTotal: ${passed} passed, ${failed} failed`,
     "font-weight: bold",
     passed + failed,
-    "tests",
+    "tests"
   );
   return { passed, failed, results };
 }
